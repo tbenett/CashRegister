@@ -2,14 +2,18 @@ package cashregister;
 
 class Price {
 
-    private final double price;
+    private final double value;
 
-    public Price(double price) {
-        this.price = price;
+    private Price(double value) {
+        this.value = value;
     }
 
-    public Price multiplyBy(double factor) {
-        return new Price(price * factor);
+    static Price valueOf(double value) {
+        return new Price(value);
+    }
+
+    Price multiplyBy(double factor) {
+        return valueOf(value * factor);
     }
 
     @Override
@@ -19,12 +23,12 @@ class Price {
 
         Price price1 = (Price) o;
 
-        return Double.compare(price1.price, price) == 0;
+        return Double.compare(price1.value, value) == 0;
     }
 
     @Override
     public int hashCode() {
-        long temp = Double.doubleToLongBits(price);
+        long temp = Double.doubleToLongBits(value);
         return (int) (temp ^ (temp >>> 32));
     }
 }
