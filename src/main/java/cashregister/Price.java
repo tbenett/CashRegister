@@ -12,8 +12,8 @@ class Price {
         return new Price(value);
     }
 
-    Price multiplyBy(Quantity factor) {
-        return valueOf(factor.multiply(this.value));
+    Price multiplyBy(Quantity quantity) {
+        return valueOf(quantity.multiply(value));
     }
 
     @Override
