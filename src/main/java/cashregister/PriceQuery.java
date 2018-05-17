@@ -5,20 +5,20 @@ import java.util.Collection;
 
 class PriceQuery {
 
-    private final Collection<Reference> references;
+    private final Collection<ItemReference> itemReferences;
 
-    PriceQuery(Reference... references) {
-        this.references = Arrays.asList(references);
+    PriceQuery(ItemReference... itemReferences) {
+        this.itemReferences = Arrays.asList(itemReferences);
     }
 
-    Price findPrice(String itemCode) {
+    Result findPrice(String soughtItemCode) {
 
-        for (Reference reference : references) {
-            if (reference.hasSameItemCodeAs(itemCode)) {
-                return reference.getUnitPrice();
+        for (ItemReference itemReference : itemReferences) {
+            if (itemReference.matchesSoughtItemCode(soughtItemCode)) {
+                return Result.found(itemReference.getUnitPrice());
             }
         }
 
-        return null;
+        return Result.notFound(soughtItemCode);
     }
 }

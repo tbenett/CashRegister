@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import static cashregister.Reference.aReference;
+import static cashregister.ItemReference.aReference;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PriceQueryTest {
@@ -27,11 +27,12 @@ class PriceQueryTest {
         "BANANA, 1.90"})
     void find_the_price_given_an_item_code(String itemCode, double unitPrice) {
         assertThat(priceQuery.findPrice(itemCode))
-            .isEqualTo(Price.valueOf(unitPrice));
+            .isEqualTo(Result.found(Price.valueOf(unitPrice)));
     }
 
     @Test
     void search_an_unknown_item() {
-        assertThat(priceQuery.findPrice("PEACH")).isNull();
+        assertThat(priceQuery.findPrice("PEACH"))
+            .isEqualTo(Result.notFound("PEACH"));
     }
 }
