@@ -19,6 +19,6 @@ class PriceQuery {
             }
         }
 
-        throw  new UnsupportedOperationException();
+        return null;
     }
 }

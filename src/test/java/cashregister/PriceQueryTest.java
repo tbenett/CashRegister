@@ -30,4 +30,8 @@ class PriceQueryTest {
             .isEqualTo(Price.valueOf(unitPrice));
     }
 
+    @Test
+    void search_an_unknown_item() {
+        assertThat(priceQuery.findPrice("PEACH")).isNull();
+    }
 }
