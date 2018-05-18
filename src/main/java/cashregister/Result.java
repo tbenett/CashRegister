@@ -1,11 +1,15 @@
 package cashregister;
 
+import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
 abstract class Result {
     static Result found(Price price) {
         return new Found(price);
     }
+
+    abstract <T> void ifFound(Consumer<Price> consumer);
+    abstract <T> void ifNotFound(Consumer<String> consumer);
 
     static Result notFound(String invalidItemCode) {
         return new NotFound(invalidItemCode);
@@ -19,6 +23,14 @@ abstract class Result {
         private Found(Price price) {
             this.price = price;
         }
+
+        @Override
+        <T> void ifFound(Consumer<Price> consumer) {
+            consumer.accept(price);
+        }
+
+        @Override
+        <T> void ifNotFound(Consumer<String> consumer) {}
 
         @Override
         Result map(UnaryOperator<Price> f) {
@@ -61,6 +73,14 @@ abstract class Result {
         @Override
         public int hashCode() {
             return invalidItemCode != null ? invalidItemCode.hashCode() : 0;
+        }
+
+        @Override
+        <T> void ifFound(Consumer<Price> consumer) {}
+
+        @Override
+        <T> void ifNotFound(Consumer<String> consumer) {
+            consumer.accept(invalidItemCode);
         }
 
         @Override

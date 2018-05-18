@@ -26,13 +26,19 @@ class PriceQueryTest {
         "APPLE, 1.20",
         "BANANA, 1.90"})
     void find_the_price_given_an_item_code(String itemCode, double unitPrice) {
-        assertThat(priceQuery.findPrice(itemCode))
-            .isEqualTo(Result.found(Price.valueOf(unitPrice)));
+        final Result total = priceQuery.findPrice(itemCode);
+
+        assertThat(total).isEqualTo(Result.found(Price.valueOf(unitPrice)));
+
+        total.ifFound(System.out::println);
     }
 
     @Test
     void search_an_unknown_item() {
-        assertThat(priceQuery.findPrice("PEACH"))
-            .isEqualTo(Result.notFound("PEACH"));
+        final Result total = priceQuery.findPrice("PEACH");
+
+        assertThat(total).isEqualTo(Result.notFound("PEACH"));
+
+        total.ifNotFound(System.out::println);
     }
 }
